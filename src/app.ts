@@ -40,7 +40,7 @@ export class App extends Application {
         this._board.buildBoard();
         //this._board.buildBalls(initial_balls_count);
         this._board.position.set(
-            this.screen.width * 0.5 + (cell_width + cell_line_style) / 2,
+            this.screen.width * 0.5 + (cell_width + cell_line_style) / 4,
             this.screen.height * 0.6,
         );
         this._board.pivot.set(this._board.width * 0.5, this._board.height * 0.5);
