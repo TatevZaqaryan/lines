@@ -3,7 +3,7 @@ import { Cell } from './board/cell';
 import { Ball } from './board/ball';
 import { BoardConfig } from './config';
 import {getRandomInRange} from "./utils"
-import { collors } from './const';
+import { colors } from './const';
 
 
 export class Queue extends Container {
@@ -40,9 +40,9 @@ export class Queue extends Container {
            this.queBall = new Ball();
           this.queBall.buildBall();
           let collor = Math.floor(getRandomInRange(0, 5));
-          queCollors.push(collor);
+          queCollors.push(collor);          
           this.queueCells[i].ball = this.queBall;          
-          this.queueCells[i].ball.tint = collors[collor];
+          this.queueCells[i].ball.tint = colors[collor];
           this.queueCells[i].addChild(this.queBall);
           this.queueCell.setBall(this.queueCells[i], this.queBall);
         }

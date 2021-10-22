@@ -82,10 +82,10 @@ export class App extends Application {
 
         const que = new Queue();
         que.buildQueueCell();
-        console.log(que.buildQueueCell());
         que.position.set(this.screen.width * 0.5 + (cell_width + cell_line_style) / 2, this.screen.height * 0.05);
         que.pivot.set(que.width * 0.5, que.height * 0.5);
         this.stage.addChild(que);
         console.log(7);
     }
 }
+
