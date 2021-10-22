@@ -1,7 +1,11 @@
 import { Application } from 'pixi.js';
+import { Cell } from './board/cell';
 import { GameView } from './game-view';
+import { Queue } from './queue';
 
 export class App extends Application {
+    que:Queue
+    queCell:Queue
     constructor() {
         super({
             backgroundColor: 0x626262,
@@ -29,6 +33,7 @@ export class App extends Application {
 
     _onLoadComplete(): void {
         this.stage.addChild(new GameView());
+        this.buildQueue()
     }
 
     _resize(width?, height?) {
@@ -48,5 +53,14 @@ export class App extends Application {
 
     _resizeRenderer(width, height) {
         this.renderer.resize(width, height);
+    }
+
+    buildQueue() :void{
+        
+        const que = new Queue()
+        que.buildQueueCell()
+        console.log(que.buildQueueCell());
+        this.stage.addChild(que);
+        console.log(7);
     }
 }
