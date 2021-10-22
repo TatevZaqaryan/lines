@@ -1,10 +1,12 @@
 import { Graphics } from 'pixi.js';
 import { BoardConfig } from '../config';
-
+import { Circle } from './circle';
 export class Ball extends Graphics {
     i: number;
     j: number;
     IsActive: boolean;
+    circle: Circle;
+
     constructor() {
         super();
     }
