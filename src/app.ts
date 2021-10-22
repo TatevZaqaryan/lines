@@ -11,7 +11,9 @@ export class App extends Application {
 
     constructor() {
         super({
-            backgroundColor: 0x626262,
+            width: window.innerWidth,
+            height: window.innerHeight,
+            backgroundColor: 0x333333,
             resolution: window.devicePixelRatio || 1,
         });
 
@@ -39,18 +41,7 @@ export class App extends Application {
         this.stage.addChild(new GameView());
         this.buildQueue()
     }
-    _buildBoard() {
-        const { initial_balls_count, cell_width, cell_line_style } = BoardConfig;
-        this._board = new Board();
-        this._board.buildBoard();
-        //this._board.buildBalls(initial_balls_count);
-        this._board.position.set(
-            this.screen.width * 0.5 + (cell_width + cell_line_style) / 2,
-            this.screen.height * 0.6,
-        );
-        this._board.pivot.set(this._board.width * 0.5, this._board.height * 0.5);
-        this.stage.addChild(this._board);
-    }
+   
 
     _resize(width?, height?) {
         width = width || window.innerWidth;
@@ -71,11 +62,30 @@ export class App extends Application {
         this.renderer.resize(width, height);
     }
 
+    _buildBoard() {
+        const { initial_balls_count, cell_width, cell_line_style } = BoardConfig;
+        this._board = new Board();
+        this._board.buildBoard();
+        //this._board.buildBalls(initial_balls_count);
+        this._board.pivot.set(this._board.width * 0.5, this._board.height * 0.5);
+        console.log( this.screen.width);
+        console.log( this.screen.height);
+        
+        this._board.position.set(
+            this.screen.width * 0.5 + (cell_width + cell_line_style)/2,
+            this.screen.height * 0.6,
+        );
+        this.stage.addChild(this._board);
+    }
+
     buildQueue() :void{
+    const { queue_balls_count, cell_width, cell_line_style } = BoardConfig;
         
         const que = new Queue()
         que.buildQueueCell()
         console.log(que.buildQueueCell());
+        que.position.set(this.screen.width * 0.5 + (cell_width + cell_line_style) / 2, this.screen.height * 0.05);
+        que.pivot.set(que.width * 0.5, que.height * 0.5);
         this.stage.addChild(que);
         console.log(7);
     }

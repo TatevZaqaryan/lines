@@ -1,12 +1,12 @@
 //import PF from 'pathfinding';
 import { Container } from 'pixi.js';
 import { BoardConfig } from '../config';
-import { Ball } from './ball';
+// import { Ball } from "./ball";
 import { Cell } from './cell';
 
 export class Board extends Container {
     cells: Cell[];
-    balls: Ball[];
+    // balls: Ball[];
     matrixCells: number[];
     circleBall: boolean;
     arr: number[];
@@ -14,7 +14,7 @@ export class Board extends Container {
     constructor() {
         super();
         this.cells = [];
-        this.balls = [];
+        // this.balls = [];
         this.matrixCells = [];
         this.circleBall = null;
         this.arr = [];
