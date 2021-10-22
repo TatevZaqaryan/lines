@@ -2,6 +2,9 @@ import { Graphics } from 'pixi.js';
 import { BoardConfig } from '../config';
 
 export class Ball extends Graphics {
+    i: number;
+    j: number;
+    IsActive: boolean;
     constructor() {
         super();
     }

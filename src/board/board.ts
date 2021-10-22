@@ -1,7 +1,10 @@
 //import PF from 'pathfinding';
+import { sampleSize } from 'lodash';
 import { Container } from 'pixi.js';
 import { BoardConfig } from '../config';
-// import { Ball } from "./ball";
+import { colors } from '../const';
+import { getRandomInRange } from '../utils';
+import { Ball } from './ball';
 import { Cell } from './cell';
 
 export class Board extends Container {
@@ -10,64 +13,62 @@ export class Board extends Container {
     matrixCells: number[];
     circleBall: boolean;
     arr: number[];
-
+    ball: Ball;
+    balls: Ball[];
+    cell: Cell;
     constructor() {
         super();
         this.cells = [];
-        // this.balls = [];
+        this.balls = [];
         this.matrixCells = [];
         this.circleBall = null;
         this.arr = [];
     }
     buildBoard() {
-        const { cell_count, cell_width } = BoardConfig;
+        const { cell_count, cell_width, initial_balls_count } = BoardConfig;
 
         for (let i = 0; i < cell_count; i++) {
             for (let j = 0; j < cell_count; j++) {
                 this.arr.push(0);
-                const cell = new Cell(i, j);
-                // cell.on('onClick', (cell) => {
-                //     this.buildCircle(cell);
-                //});
-                //cell.ball = null;
-                cell.i = j;
-                cell.j = i;
-                cell.buildCell(0);
-                cell.position.set(j * (cell_width + 1), i * (cell_width + 1));
-                cell.tint = (i + j) % 2 === 0 ? 0x888888 : 0xbbbbbb;
-                this.cells.push(cell);
-                this.addChild(cell);
+                this.cell = new Cell(i, j);
+
+                this.cell.i = j;
+                this.cell.ball = null;
+                this.cell.j = i;
+                this.cell.buildCell(0);
+                this.cell.position.set(j * (cell_width + 1), i * (cell_width + 1));
+                this.cell.tint = (i + j) % 2 === 0 ? 0x888888 : 0xbbbbbb;
+                this.cells.push(this.cell);
+                this.addChild(this.cell);
+                //console.log(this.cells);
             }
             //this.matrixCells.push(this.arr);
         }
+        this.buildBalls(initial_balls_count);
     }
 
-    // buildBalls(ballCount, collors) {
-    //     const { cell_width } = BoardConfig;
-    //     // console.log(this.cells);
-    //     const emtyCells = this.cells.filter((cell) => {
-    //         return cell.ball === null;
-    //     });
-    //     //console.warn(emtyCells);
-    //     const initial_cell = sampleSize(emtyCells, ballCount);
-    //     for (let i = 0; i < ballCount; i++) {
-    //         this.ball = new Ball();
-    //         this.ball.buildBall();
-    //         this.ball.IsActive = false;
-    //         this.ball.circle = null;
-    //         this.ball.i = null;
-    //         this.ball.j = null;
-
-    //         initial_cell[i].ball = this.ball;
-    //         let color = Math.floor(getRandomInRange(0, 5));
-    //         initial_cell[i].ball.tint = colors[color];
-    //         this.balls.push(initial_cell[i].ball);
-    //         const cell = new Cell();
-    //         initial_cell[i].addChild(this.ball);
-    //         cell.setBall(initial_cell[i], this.ball);
-    //         this.matrixCells[initial_cell[i].j][initial_cell[i].i] = 1;
-    //     }
-    // }
+    buildBalls(ballCount) {
+        const { cell_width } = BoardConfig;
+        const emptyCells = this.cells.filter((cell) => {
+            return cell.ball === null;
+        });
+        const initial_cell = sampleSize(emptyCells, ballCount);
+        for (let i = 0; i < ballCount; i++) {
+            this.ball = new Ball();
+            this.ball.buildBall();
+            this.ball.IsActive = false;
+            //this.ball.circle = null;
+            this.ball.i = null;
+            this.ball.j = null;
+            initial_cell[i].ball = this.ball;
+            const color = Math.floor(getRandomInRange(0, 5));
+            initial_cell[i].ball.tint = colors[color];
+            this.balls.push(initial_cell[i].ball);
+            initial_cell[i].addChild(this.ball);
+            this.cell.setBall(initial_cell[i], this.ball);
+            // this.matrixCells[initial_cell[i].j][initial_cell[i].i] = 1;
+        }
+    }
 
     // buildCircle(cell) {
     //     if (this.circleBall) {

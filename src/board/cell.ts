@@ -1,11 +1,13 @@
 import { Graphics } from 'pixi.js';
 import { BoardConfig } from '../config';
+import { Ball } from './ball';
 
 export class Cell extends Graphics {
     row: number;
     column: number;
     i: number;
     j: number;
+    ball: Ball;
 
     constructor(row: number, column: number) {
         super();

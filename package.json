@@ -42,6 +42,7 @@
     },
     "dependencies": {
         "@types/pathfinding": "0.0.5",
+        "lodash.shuffle": "^4.2.0",
         "pixi.js": "^5.3.10"
     }
 }

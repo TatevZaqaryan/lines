@@ -65,7 +65,7 @@ export class App extends Application {
         const { initial_balls_count, cell_width, cell_line_style } = BoardConfig;
         this._board = new Board();
         this._board.buildBoard();
-        //this._board.buildBalls(initial_balls_count);
+        //this._board.buildBalls(initial_balls_count, colors);
         this._board.pivot.set(this._board.width * 0.5, this._board.height * 0.5);
         console.log(this.screen.width);
         console.log(this.screen.height);
