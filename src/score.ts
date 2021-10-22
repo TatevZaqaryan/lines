@@ -23,14 +23,6 @@ export class Score extends Text {
         this.addChild(basicText);
         
 
-        buildScore():void{
-            const { queue_balls_count, cell_width, cell_line_style } = BoardConfig;
-    
-            const score = new Score();
-            score.position.set(this.screen.width * 0.5, this.screen.height * 0.15);
-            console.log(score.getScore());
-            
-            this.stage.addChild(score);
-        }
+     
     }
 }

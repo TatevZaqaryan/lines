@@ -1,4 +1,3 @@
-//import PF from 'pathfinding';
 import { sampleSize } from 'lodash';
 import { Container } from 'pixi.js';
 import { BoardConfig } from '../config';
@@ -6,12 +5,11 @@ import { colors } from '../const';
 import { getRandomInRange } from '../utils';
 import { Ball } from './ball';
 import { Cell } from './cell';
-
+import { Circle } from './circle';
 export class Board extends Container {
     cells: Cell[];
-    // balls: Ball[];
     matrixCells: number[];
-    circleBall: boolean;
+    circleBall: Ball;
     arr: number[];
     ball: Ball;
     balls: Ball[];
@@ -21,8 +19,8 @@ export class Board extends Container {
         this.cells = [];
         this.balls = [];
         this.matrixCells = [];
-        this.circleBall = null;
         this.arr = [];
+        this.circleBall = null;
     }
     buildBoard() {
         const { cell_count, cell_width, initial_balls_count } = BoardConfig;
@@ -31,7 +29,9 @@ export class Board extends Container {
             for (let j = 0; j < cell_count; j++) {
                 this.arr.push(0);
                 this.cell = new Cell(i, j);
-
+                this.cell.on('onClick', (cell) => {
+                    this.buildCircle(cell);
+                });
                 this.cell.i = j;
                 this.cell.ball = null;
                 this.cell.j = i;
@@ -57,7 +57,7 @@ export class Board extends Container {
             this.ball = new Ball();
             this.ball.buildBall();
             this.ball.IsActive = false;
-            //this.ball.circle = null;
+            this.ball.circle = null;
             this.ball.i = null;
             this.ball.j = null;
             initial_cell[i].ball = this.ball;
@@ -66,33 +66,33 @@ export class Board extends Container {
             this.balls.push(initial_cell[i].ball);
             initial_cell[i].addChild(this.ball);
             this.cell.setBall(initial_cell[i], this.ball);
-            // this.matrixCells[initial_cell[i].j][initial_cell[i].i] = 1;
+
+            //this.matrixCells[initial_cell[i].j][initial_cell[i].i] = 1;
         }
     }
 
-    // buildCircle(cell) {
-    //     if (this.circleBall) {
-    //         this.circleBall.circle.destroy();
-    //         this.circleBall.circle = null;
-    //         this.circleBall.IsActive = false;
-    //     }
-
-    //     if (cell.ball !== null) {
-    //         this.circleBall = cell.ball;
-    //         const circle = new Circle();
-    //         this.circleBall.circle = circle;
-    //         this.circleBall.i = cell.i;
-    //         this.circleBall.j = cell.j;
-
-    //         this.circleBall.IsActive = true;
-    //         this.circleBall.addChild(circle);
-    //     } else {
-    //         if (this.circleBall) {
-    //             this._phathfinder(this.circleBall.i, this.circleBall.j, cell.i, cell.j);
-    //         }
-    //         this.circleBall = null;
-    //     }
-    // }
+    buildCircle(cell) {
+        if (this.circleBall) {
+            this.circleBall.circle.destroy();
+            this.circleBall.circle = null;
+            this.circleBall.IsActive = false;
+        }
+        if (cell.ball !== null) {
+            this.circleBall = cell.ball;
+            const circle = new Circle();
+            console.log(this.circleBall);
+            this.circleBall.circle = circle;
+            this.circleBall.i = cell.i;
+            this.circleBall.j = cell.j;
+            this.circleBall.IsActive = true;
+            this.circleBall.addChild(circle);
+        } else {
+            // if (this.circleBall) {
+            //     this._phathfinder(this.circleBall.i, this.circleBall.j, cell.i, cell.j);
+            // }
+            this.circleBall = null;
+        }
+    }
 
     // _phathfinder(xStart, yStart, xEnd, yEnd) {
     //     const grid = new PF.Grid(this.matrixCells);

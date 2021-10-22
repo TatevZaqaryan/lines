@@ -3,6 +3,7 @@ import { Board } from './board/board';
 import { BoardConfig } from './config';
 import { GameView } from './game-view';
 import { Queue } from './queue';
+import {Score} from "./score"
 
 export class App extends Application {
     que: Queue;
@@ -40,6 +41,7 @@ export class App extends Application {
         this._buildBoard();
         this.stage.addChild(new GameView());
         this.buildQueue();
+        this.buildScore()
     }
 
     _resize(width?, height?) {
@@ -86,6 +88,16 @@ export class App extends Application {
         que.pivot.set(que.width * 0.5, que.height * 0.5);
         this.stage.addChild(que);
         console.log(7);
+    }
+
+    buildScore():void{
+        const { queue_balls_count, cell_width, cell_line_style } = BoardConfig;
+
+        const score = new Score();
+        score.position.set(this.screen.width * 0.5, this.screen.height * 0.15);
+        console.log(score.getScore());
+        
+        this.stage.addChild(score);
     }
 }
 
