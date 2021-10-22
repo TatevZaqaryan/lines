@@ -4,6 +4,8 @@ import { BoardConfig } from '../config';
 export class Cell extends Graphics {
     row: number;
     column: number;
+    i: number;
+    j: number;
 
     constructor(row: number, column: number) {
         super();
@@ -33,6 +35,6 @@ export class Cell extends Graphics {
     }
 
     _onClick() {
-        // this.emiter.emit('onClick', this);
+        this.emit('onClick', this);
     }
 }
