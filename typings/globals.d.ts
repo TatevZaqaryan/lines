@@ -1,3 +1,3 @@
 interface Window {
-  app: import('../src').App
+    app: import('../src').App;
 }

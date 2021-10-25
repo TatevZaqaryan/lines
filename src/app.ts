@@ -3,13 +3,13 @@ import { Board } from './board/board';
 import { BoardConfig } from './config';
 import { GameView } from './game-view';
 import { Queue } from './queue';
-import {Score} from "./score"
+import { Score } from './score';
 
 export class App extends Application {
     que: Queue;
     queCell: Queue;
     _board: Board;
-
+    counter: number;
     constructor() {
         super({
             width: window.innerWidth,
@@ -17,6 +17,7 @@ export class App extends Application {
             backgroundColor: 0x333333,
             resolution: window.devicePixelRatio || 1,
         });
+        this.counter = 1;
 
         document.body.appendChild(this.view);
 
@@ -38,10 +39,12 @@ export class App extends Application {
     }
 
     _onLoadComplete(): void {
-        this._buildBoard();
+        this.ticker.add(this._update, this);
+        this.ticker.start();
         this.stage.addChild(new GameView());
+        this._buildBoard();
         this.buildQueue();
-        this.buildScore()
+        this.buildScore();
     }
 
     _resize(width?, height?) {
@@ -67,37 +70,40 @@ export class App extends Application {
         const { initial_balls_count, cell_width, cell_line_style } = BoardConfig;
         this._board = new Board();
         this._board.buildBoard();
-        //this._board.buildBalls(initial_balls_count, colors);
         this._board.pivot.set(this._board.width * 0.5, this._board.height * 0.5);
-        console.log(this.screen.width);
-        console.log(this.screen.height);
 
         this._board.position.set(
             this.screen.width * 0.5 + (cell_width + cell_line_style) / 2,
             this.screen.height * 0.6,
         );
         this.stage.addChild(this._board);
+        this._board.buildBalls(initial_balls_count);
     }
 
     buildQueue(): void {
         const { queue_balls_count, cell_width, cell_line_style } = BoardConfig;
 
-        const que = new Queue();
-        que.buildQueueCell();
-        que.position.set(this.screen.width * 0.5 + (cell_width + cell_line_style) / 2, this.screen.height * 0.05);
-        que.pivot.set(que.width * 0.5, que.height * 0.5);
-        this.stage.addChild(que);
-        console.log(7);
+        this.que = new Queue();
+        this.que.buildQueueCell();
+        this.que.position.set(this.screen.width * 0.5 + (cell_width + cell_line_style) / 2, this.screen.height * 0.05);
+        this.que.pivot.set(this.que.width * 0.5, this.que.height * 0.5);
+        this.stage.addChild(this.que);
+        this.que.buildQueueBalls();
     }
 
-    buildScore():void{
+    buildScore(): void {
         const { queue_balls_count, cell_width, cell_line_style } = BoardConfig;
 
         const score = new Score();
         score.position.set(this.screen.width * 0.5, this.screen.height * 0.15);
-        console.log(score.getScore());
-        
+
         this.stage.addChild(score);
     }
-}
 
+    _update() {
+        if (this.counter === this._board.count) {
+            this.que.buildQueueBalls();
+            this.counter += 1;
+        }
+    }
+}
