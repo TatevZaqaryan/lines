@@ -1,5 +1,5 @@
 import { sampleSize } from 'lodash';
-import { PF } from 'pathfinding';
+import * as PF from 'pathfinding';
 import { Container } from 'pixi.js';
 import { BoardConfig } from '../config';
 import { colors } from '../const';
@@ -104,6 +104,7 @@ export class Board extends Container {
     }
 
     _pathfinder(xStart, yStart, xEnd, yEnd) {
+        console.log(PF.Grid);
         const grid = new PF.Grid(this.matrixCells);
         const finder = new PF.AStarFinder();
         const path = finder.findPath(xStart, yStart, xEnd, yEnd, grid);
